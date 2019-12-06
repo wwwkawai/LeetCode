@@ -1,0 +1,23 @@
+class Solution {
+public:
+    void nextPermutation(vector<int>& nums) {
+        int i=nums.size()-2;
+        while(i>=0&&nums[i]>=nums[i+1])
+            i--;
+        if(i>=0)
+        {
+            int j=nums.size()-1;
+            while(j>=0&&nums[j]<=nums[i])
+                j--;
+            swap(nums[i],nums[j]);
+        }
+        for(int k=i+1,l=nums.size()-1;k<l;k++,l--)
+        {
+            swap(nums[k],nums[l]);
+        }
+    }
+};
+/* Search for one element that satisfies nums[i]<nums[i+1],it indicates that the number between nums[i+1] and nums.back() 
+is in descending order ,so, we can not find any subsequence bigger than that.Thus,we should rerange the number between 
+nums[i] to nums.back().We should find the first element nums[j] which is bigger than nums[i] from nums.back() to nums[i+1],
+then swap them.Finally, reverse the array from index i+1 to nums.size()-1 to make this subsequence the smallest*/
