@@ -1,0 +1,42 @@
+Given a m * n grid, where each cell is either 0 (empty) or 1 (obstacle). In one step, you can move up, down, left or right from and to an empty cell.
+Return the minimum number of steps to walk from the upper left corner (0, 0) to the lower right corner (m-1, n-1) given that you can eliminate at most k obstacles. If it is not possible to find such walk return -1.
+class Solution {
+public:
+    int shortestPath(vector<vector<int>>& grid, int k) {
+        vector<int> dx={1,-1,0,0};
+        vector<int> dy={0,0,1,-1};
+        int m=grid.size(),n=grid[0].size();
+        vector<vector<vector<int>>> dp(m+1,vector<vector<int>>(n+1,vector<int>(k+1,-1)));
+        queue<pair<pair<int,int>,int>> q;
+        dp[0][0][grid[0][0]]=0;
+        q.push(make_pair(make_pair(0,0),0));
+        while(!q.empty())
+        {
+            auto step=q.front();
+            q.pop();
+            int x=step.first.first,y=step.first.second,obs=step.second;
+            for(int i=0;i<4;i++)
+            {
+                int _x=x+dx[i],_y=y+dy[i];
+                if(0<=_x&&_x<m&&0<=_y&&_y<n)
+                {
+                    int _obs=obs+grid[_x][_y];
+                    if(_obs<=k&&dp[_x][_y][_obs]==-1)
+                    {
+                        dp[_x][_y][_obs]=dp[x][y][obs]+1;
+                        q.push(make_pair(make_pair(_x,_y),_obs));
+                    }
+                }
+            }
+        }
+        int res=INT_MAX;
+        for(int i=0;i<=k;i++)
+        {
+            if(dp[m-1][n-1][i]!=-1)
+                res=min(res,dp[m-1][n-1][i]);
+        }
+        return res==INT_MAX?-1:res;
+    }
+};
+/*use dp[i][j][k] to represent the least steps move to grid[i][j] by eliminate k obstacles
+bfs the whole map and find the anwser*/
