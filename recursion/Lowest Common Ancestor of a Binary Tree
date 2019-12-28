@@ -1,0 +1,20 @@
+class Solution {
+public:
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        if(!root||root==p||root==q)
+            return root;
+        auto l=lowestCommonAncestor(root->left,p,q);
+        auto r=lowestCommonAncestor(root->right,p,q);
+        if(l&&r)
+            return root;
+        else if(l)
+            return l;
+        else if(r)
+            return r;
+        else return NULL;
+    }
+};
+/*
+because the value of each node is unique, so, we can recursively find p and q in root's children, and just return it.
+p and q are either in the same subtree(the ans is q or p), or they are in the two subtrees of one node n(the ans is n)   
+*/
