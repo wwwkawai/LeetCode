@@ -1,0 +1,21 @@
+Suppose you have a random list of people standing in a queue. Each person is described by a pair of integers (h, k), where h is the height of the person and k is the number of people in front of this person who have a height greater than or equal to h. Write an algorithm to reconstruct the queue.
+class Solution {
+public:
+    vector<vector<int>> reconstructQueue(vector<vector<int>>& people) {
+        
+        vector<vector<int>> ans;
+        sort(people.begin(),people.end(),[&](vector<int> a,vector<int> b){
+            if(a[0]==b[0])
+                return a[1]>b[1];
+            return a[0]<b[0];
+        });
+        for(int i=people.size()-1;i>=0;i--)
+        {
+            ans.insert(ans.begin()+people[i][1],people[i]);
+        }
+        return ans;
+    }
+};
+/*
+sort the vector of people's height and the number of people in front of this person,start with the person that is the highest and with the least people in front of him,and just insert him into the ans's position k(because everyone inserted before him is taller than him),and so do the second highest people. 
+*/
