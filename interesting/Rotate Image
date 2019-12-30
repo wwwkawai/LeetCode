@@ -1,0 +1,19 @@
+You are given an n x n 2D matrix representing an image.
+Rotate the image by 90 degrees (clockwise).
+class Solution {
+public:
+    void rotate(vector<vector<int>>& matrix) {
+        reverse(matrix.begin(),matrix.end());
+        for(int i=0;i<matrix.size();i++)
+        {
+            for(int j=0;j<i;j++)
+            {
+                swap(matrix[i][j],matrix[j][i]);
+            }
+        }
+    }
+};
+/*
+after we rotate the image by 90 degrees, we can find that, first, the new matrix's elements' row equal to the old's column, second, the 
+new's column equal to n-1 substract the old's row. And we notice that transpose the matrix can achive the first step and filp the matrix horizontally can implement the second step.
+*/
