@@ -1,0 +1,28 @@
+Given preorder and inorder traversal of a tree, construct the binary tree.
+class Solution {
+public:
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+        return fff(preorder,0,preorder.size(),inorder,0,inorder.size());
+    }
+    TreeNode* fff(vector<int>& preorder,int s1,int e1, vector<int>& inorder,int s2,int e2)
+    {
+        if(s1>=e1||s2>=e2)
+            return NULL;
+        TreeNode* root =new TreeNode(preorder[s1]);
+        int index;
+        for(int i=s2;i<e2;i++)
+        {
+            if(inorder[i]==preorder[s1])
+            {
+                index=i;
+                break;
+            }
+        }
+        root->left=fff(preorder,s1+1,s1+1+index-s2+,inorder,s2,index);
+        root->right=fff(preorder,s1+1+index-s2,e1,inorder,index+1,e2);
+        return root;
+    }
+};
+/*
+everytime we use the preorder[s1] to construct the tree, and use inorder to divide the arr into two parts, one is the left_subtree and the other is the right subtree, recursively call this function and get the answer.
+*/
