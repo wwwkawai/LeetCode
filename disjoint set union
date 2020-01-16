@@ -1,0 +1,40 @@
+There are n computers numbered from 0 to n-1 connected by ethernet cables connections forming a network where connections[i] = [a, b] represents a connection between computers a and b. Any computer can reach any other computer directly or indirectly through the network.
+Given an initial computer network connections. You can extract certain cables between two directly connected computers, and place them between any pair of disconnected computers to make them directly connected. Return the minimum number of times you need to do this in order to make all the computers connected. If it's not possible, return -1. 
+class Solution {
+public:
+    int get_f(vector<int>& arr,int pos)
+    {
+        while(arr[pos]!=pos)
+        {
+            pos=arr[pos];
+        }
+        return pos;
+    }
+    void merge(int pos1,int pos2,vector<int>& arr)
+    {
+        arr[get_f(arr,pos1)]=get_f(arr,pos2);
+    }
+    int makeConnected(int n, vector<vector<int>>& connections) {
+        if(co.size()<n-1)
+            return -1;
+        vector<int> dsu(n,0); //Disjoint Set Union
+        for(int i=0;i<dsu.size();i++)
+        {
+            dsu[i]=i;
+        }
+        for(auto p:co)
+        {
+            merge(p[0],p[1],dsu);
+        }
+        int cnt=0;
+        for(int i=0;i<dsu.size();i++)
+        {
+            if(dsu[i]==i)
+                cnt++;
+        }
+        return cnt-1;
+    }
+};
+/*To connect a map with n nodes, we need n-1 edges at least, so, if the connections' size smaller than n-1, we just return -1.
+Next, we can use disjoint set union to get the ans.
+*/
