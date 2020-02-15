@@ -1,0 +1,31 @@
+Given a circular array C of integers represented by A, find the maximum possible sum of a non-empty subarray of C.
+Here, a circular array means the end of the array connects to the beginning of the array.  (Formally, C[i] = A[i] when 0 <= i < A.length, and C[i+A.length] = C[i] when i >= 0.)
+Also, a subarray may only include each element of the fixed buffer A at most once.  (Formally, for a subarray C[i], C[i+1], ..., C[j], there does not exist i <= k1, k2 <= j with k1 % A.length = k2 % A.length.)
+class Solution {
+public:
+    int maxSubarraySumCircular(vector<int>& A) {
+        int res=INT_MIN,sum=0,mi=INT_MAX,sum2=0;
+        for(int i=0;i<A.size();i++){
+            if(sum<0){
+                sum=0;
+            }
+            if(sum2>0){
+                sum2=0;
+            }
+            sum2+=A[i];
+            sum+=A[i];
+            mi=min(mi,sum2);
+            res=max(res,sum);
+        }
+        int sum1=0;
+        for(int i=0;i<A.size();i++){
+            sum1+=A[i];
+        }
+        cout<<res<<' '<<mi<<endl;
+        if(mi==sum1)
+            return res;
+        else
+            return max(res,sum1-mi);
+    }
+};
+/*Either the answer is the subarray of A or the subarray of the circular array.So ,in the first case,we just use the kadane's algorithm to get the maximum value of A's subarray. In the another case, we can transform it to find the minimum value of A's subarray, subtract it and we can get the maximum value of circular array's subarray. And compare them to get the answer.*/
