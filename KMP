@@ -1,4 +1,4 @@
-using KMP find all the subsequencese in s which equal to pattern,return the position they appeal. 
+using KMP find all the subsequencese in s which equal to pattern,return the position they appear. 
 class Solution {
 public:
     vector<int> next(string s){
