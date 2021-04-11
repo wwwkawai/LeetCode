@@ -1,0 +1,48 @@
+int lowbit(int x) {
+  // 算出x二进制的从右往左出现第一个1以及这个1之后的那些0组成数的二进制对应的十进制的数
+  return x & -x;
+}
+//单点修改
+void add(int x, int k) {
+  while (x <= n) {  // 不能越界
+    c[x] = c[x] + k;
+    x = x + lowbit(x);
+  }
+}
+//求和
+int getsum(int x) {  // a[1]……a[x]的和
+  int ans = 0;
+  while (x >= 1) {
+    ans = ans + c[x];
+    x = x - lowbit(x);
+  }
+  return ans;
+}
+//区间修改和区间求和
+//维护差分数组b[i]和数组i*b[i]
+int t1[MAXN], t2[MAXN], n;
+void add(int k, int v) {
+  int v1 = k * v;
+  while (k <= n) {
+    t1[k] += v, t2[k] += v1;
+    k += lowbit(k);
+  }
+}
+
+int getsum(int *t, int k) {
+  int ret = 0;
+  while (k) {
+    ret += t[k];
+    k -= lowbit(k);
+  }
+  return ret;
+}
+
+void add1(int l, int r, int v) {
+  add(l, v), add(r + 1, -v);  // 将区间加差分为两个前缀加
+}
+
+long long getsum1(int l, int r) {
+  return (r + 1ll) * getsum(t1, r) - 1ll * l * getsum(t1, l - 1) -
+         (getsum(t2, r) - getsum(t2, l - 1));
+}
